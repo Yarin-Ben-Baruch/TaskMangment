@@ -1,4 +1,4 @@
-package com.example.task.management.system.repo;
+package com.example.tms.repo;
 
 import com.example.task.management.system.enums.Priority;
 import com.example.task.management.system.enums.Status;

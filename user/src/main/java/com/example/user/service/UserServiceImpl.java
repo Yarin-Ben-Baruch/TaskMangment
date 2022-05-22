@@ -1,9 +1,9 @@
 package com.example.user.service;
 
+import com.example.common.pojo.UserDto;
 import com.example.user.exceptions.UserNotFoundException;
 import com.example.user.pojo.User;
 import com.example.user.pojo.UserCreation;
-import com.example.user.pojo.UserDto;
 import com.example.user.repository.UserRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,9 @@
 package com.example.task.management.system.service;
 
+import com.example.common.pojo.UserDto;
 import com.example.task.management.system.pojo.*;
 import com.example.task.management.system.repo.NoteRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -12,17 +14,16 @@ import java.util.stream.Collectors;
 @Service
 public class DtoToEntityConverterImpl implements DtoToEntityConverter {
 
-    //@Autowired private TaskRepository taskRepository;
-
     @Autowired private NoteRepository noteRepository;
 
     @Autowired private RestTemplate restTemplate;
+    //@Autowired private WebClient.Builder webClientBuilder;
 
     @Override
     public TaskDto toTaskDto(Task task) {
-        Collection<Note> taskNotes = noteRepository.getAllNotes()
-                .stream().filter(currentNote -> currentNote.getTask().getId() == task.getId())
-                .collect(Collectors.toList());
+        Collection<Note> taskNotes = getTaskNotes(task);
+
+        UserDto userDto = fetchUserDetails(task);
 
         TaskDto taskDto = TaskDto.builder()
                 .idTask(task.getId())
@@ -34,6 +35,7 @@ public class DtoToEntityConverterImpl implements DtoToEntityConverter {
                 .currentStatus(task.getCurrentStatus())
                 .notes(getCollectionNoteOfDto(taskNotes))
                 .userId(task.getUserId())
+                .userDto(userDto)
                 .build();
 
         return taskDto;
@@ -98,11 +100,26 @@ public class DtoToEntityConverterImpl implements DtoToEntityConverter {
         return notes.stream().map(this::toNoteDto)
                 .collect(Collectors.toList());
     }
-    
-    private void fetchUserDetails(){
 
-        //TODO replace with User
-        Object user = restTemplate.getForObject("localhost...", Object.class);
+    private UserDto fetchUserDetails(Task task) {
+        UserDto user = restTemplate.getForObject("http://localhost:8090/users/" + task.getUserId(), UserDto.class);
+
+        return user;
+        /*
+                Object user = webClientBuilder.build()
+                .get()
+                .uri("http://localhost:8090/users/{}",taskDto.getUserId())
+                .retrieve()
+                .bodyToMono(Object.class) //// mono it's like promise -> async
+                .block();
+         */
     }
-        
+
+    @NotNull
+    private Collection<Note> getTaskNotes(Task task) {
+        Collection<Note> taskNotes = noteRepository.getAllNotes()
+                .stream().filter(currentNote -> currentNote.getTask().getId() == task.getId())
+                .collect(Collectors.toList());
+        return taskNotes;
+    }
 }

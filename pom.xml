@@ -92,5 +92,6 @@
     <modules>
         <module>tms</module>
         <module>user</module>
+        <module>common</module>
     </modules>
 </project>

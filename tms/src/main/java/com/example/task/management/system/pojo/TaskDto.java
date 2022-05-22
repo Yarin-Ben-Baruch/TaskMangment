@@ -1,8 +1,10 @@
 package com.example.task.management.system.pojo;
 
+import com.example.common.pojo.UserDto;
 import com.example.task.management.system.enums.Priority;
 import com.example.task.management.system.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,10 +31,13 @@ public class TaskDto implements ITask {
 
     private Status currentStatus;
 
+    @JsonIgnore
     private Long userId;
 
     //Expands task class.
     private Collection<NoteDto> notes;
+
+    private UserDto userDto;
 
     @Builder
     public TaskDto(Long idTask,
@@ -43,7 +48,8 @@ public class TaskDto implements ITask {
                    LocalDate expectedEndDate,
                    Status currentStatus,
                    Collection<NoteDto> notes,
-                   Long userId) {
+                   Long userId,
+                   UserDto userDto) {
         this.idTask = idTask;
         this.name = name;
         this.description = description;
@@ -53,6 +59,7 @@ public class TaskDto implements ITask {
         this.currentStatus = currentStatus;
         this.notes = notes;
         this.userId = userId;
+        this.userDto = userDto;
     }
 
     @Override

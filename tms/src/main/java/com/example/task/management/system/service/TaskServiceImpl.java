@@ -1,5 +1,6 @@
 package com.example.task.management.system.service;
 
+import com.example.common.pojo.UserDto;
 import com.example.task.management.system.enums.Status;
 import com.example.task.management.system.enums.TimeOptions;
 import com.example.task.management.system.exceptions.TaskNotFoundException;
@@ -9,6 +10,7 @@ import com.example.task.management.system.repo.TaskRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -18,11 +20,17 @@ public class TaskServiceImpl implements TaskService {
 
     private static final String ERROR_MESSAGE_FOR_ID = "There is not task corresponding to id = ";
 
-    @Autowired private DtoToEntityConverter dtoToEntityConverter;
+    @Autowired
+    private DtoToEntityConverter dtoToEntityConverter;
 
-    @Autowired private TaskRepository taskRepository;
+    @Autowired
+    private TaskRepository taskRepository;
 
-    @Autowired private NoteRepository noteRepository;
+    @Autowired
+    private NoteRepository noteRepository;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public TaskDto addNewTask(TaskDtoCreation newTask) {
@@ -42,6 +50,15 @@ public class TaskServiceImpl implements TaskService {
         Task taskAfterUpdate = taskRepository.updateTask(taskValidToUpdate);
 
         return dtoToEntityConverter.toTaskDto(taskAfterUpdate);
+    }
+
+    private Task isNewTaskValid(TaskDtoCreation newTask) {
+        isTaskValidToAdd(newTask);
+
+        Task taskFromDto = dtoToEntityConverter.getEntityTaskFromUpdateDto(newTask);
+        taskFromDto = taskRepository.addNewTask(taskFromDto);
+
+        return taskFromDto;
     }
 
     @Override
@@ -162,21 +179,19 @@ public class TaskServiceImpl implements TaskService {
         if (userIdToCheck.getUserId() == null) {
             throw new TaskNotFoundException("User id is a required field");
         }
+
+        try {
+            restTemplate.getForObject("http://localhost:8090/users/" + userIdToCheck.getUserId(), UserDto.class);
+        }
+        catch (Exception e) {
+            throw new TaskNotFoundException(e.getMessage());
+        }
     }
 
     private void putDefaultStatus(ITask statusToCheck) {
         if (statusToCheck.getCurrentStatus() == null) {
             statusToCheck.setCurrentStatus(Status.OPEN);
         }
-    }
-
-    private Task isNewTaskValid(TaskDtoCreation newTask) {
-        isTaskValidToAdd(newTask);
-
-        Task taskFromDto = dtoToEntityConverter.getEntityTaskFromUpdateDto(newTask);
-        taskFromDto = taskRepository.addNewTask(taskFromDto);
-
-        return taskFromDto;
     }
 }
 

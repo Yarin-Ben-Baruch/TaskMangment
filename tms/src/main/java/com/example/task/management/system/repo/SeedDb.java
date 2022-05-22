@@ -35,6 +35,7 @@
 //                .startDate(LocalDate.now())
 //                .expectedEndDate(LocalDate.of(2022, 06, pickDay))
 //                .currentStatus(Status.values()[pickStatus])
+//                .userId(1l)
 //                .build());
 //        log.info("task just create. task:{}", task);
 //    }
@@ -53,6 +54,7 @@
 //                .startDate(LocalDate.now())
 //                .expectedEndDate(LocalDate.of(2022, 06, pickDay))
 //                .currentStatus(Status.values()[pickStatus])
+//                .userId(1l)
 //                .build());
 //        log.info("task just create. task:{}", task);
 //    }
@@ -68,6 +70,7 @@
 //                    .startDate(LocalDate.of(2022, 05, 05))
 //                    .expectedEndDate(LocalDate.of(2022, 05, 15))
 //                    .currentStatus(Status.CLOSED)
+//                    .userId(1l)
 //                    .build());
 //            log.info("task just create. task:{}", task1);
 //
@@ -78,6 +81,7 @@
 //                    .startDate(LocalDate.of(2022, 05, 06))
 //                    .expectedEndDate(LocalDate.of(2022, 05, 05))
 //                    .currentStatus(Status.IN_PROCESS)
+//                    .userId(2l)
 //                    .build());
 //            log.info("task just create. task:{}", task2);
 //
@@ -88,6 +92,7 @@
 //                    .startDate(LocalDate.of(2022, 05, 07))
 //                    .expectedEndDate(LocalDate.of(2022, 05, 21))
 //                    .currentStatus(Status.OPEN)
+//                    .userId(1l)
 //                    .build());
 //            log.info("task just create. task:{}", task3);
 //
@@ -98,6 +103,7 @@
 //                    .startDate(LocalDate.of(2022, 05, 8))
 //                    .expectedEndDate(LocalDate.of(2022, 05, 20))
 //                    .currentStatus(Status.OPEN)
+//                    .userId(1l)
 //                    .build());
 //            log.info("task just create. task:{}", task4);
 //
@@ -108,6 +114,7 @@
 //                    .startDate(LocalDate.of(2022, 05, 9))
 //                    .expectedEndDate(LocalDate.of(2022, 05, 19))
 //                    .currentStatus(Status.OPEN)
+//                    .userId(2l)
 //                    .build());
 //            log.info("task just create. task:{}", task5);
 //        };

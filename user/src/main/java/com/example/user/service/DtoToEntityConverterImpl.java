@@ -1,8 +1,8 @@
 package com.example.user.service;
 
+import com.example.common.pojo.UserDto;
 import com.example.user.pojo.User;
 import com.example.user.pojo.UserCreation;
-import com.example.user.pojo.UserDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
