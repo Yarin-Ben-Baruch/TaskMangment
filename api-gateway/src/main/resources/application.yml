@@ -1,0 +1,24 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: API-GATEWAY
+
+  main:
+    web-application-type: reactive
+
+  cloud:
+    gateway:
+      routes:
+        - id: TASK-SERVICE
+          uri:
+            lb://TASK-SERVICE
+          predicates:
+            - Path=/task/**
+
+        - id: USER-SERVICE
+          uri:
+            lb://USER-SERVICE
+          predicates:
+            - Path=/users/**
