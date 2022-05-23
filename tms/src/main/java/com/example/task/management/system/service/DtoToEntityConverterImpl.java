@@ -3,8 +3,8 @@ package com.example.task.management.system.service;
 import com.example.common.pojo.UserDto;
 import com.example.task.management.system.pojo.*;
 import com.example.task.management.system.repo.NoteRepository;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,6 +13,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class DtoToEntityConverterImpl implements DtoToEntityConverter {
+
+    @Value("${app.userUrlAllUsers}")
+    private String userUrlAllUsers;
 
     @Autowired private NoteRepository noteRepository;
 
@@ -102,7 +105,7 @@ public class DtoToEntityConverterImpl implements DtoToEntityConverter {
     }
 
     private UserDto fetchUserDetails(Task task) {
-        UserDto user = restTemplate.getForObject("http://localhost:8090/users/" + task.getUserId(), UserDto.class);
+        UserDto user = restTemplate.getForObject(userUrlAllUsers + task.getUserId(), UserDto.class);
 
         return user;
         /*
@@ -115,7 +118,6 @@ public class DtoToEntityConverterImpl implements DtoToEntityConverter {
          */
     }
 
-    @NotNull
     private Collection<Note> getTaskNotes(Task task) {
         Collection<Note> taskNotes = noteRepository.getAllNotes()
                 .stream().filter(currentNote -> currentNote.getTask().getId() == task.getId())

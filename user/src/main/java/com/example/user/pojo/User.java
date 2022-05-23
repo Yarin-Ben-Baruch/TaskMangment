@@ -1,6 +1,9 @@
 package com.example.user.pojo;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -15,6 +18,9 @@ public class User {
     @Column(name = "ID")
     private Long userId;
 
+    @Column(name = "PERSONAL_ID")
+    private String personalId;
+
     @Column(name = "FIRST_NAME")
     private String firstName;
 
@@ -28,12 +34,13 @@ public class User {
     private String password;
 
     @Builder
-    public User(Long userId, String firstName, String lastName, String email, String password) {
+    public User(Long userId, String firstName, String lastName, String email, String password, String personalId) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.personalId = personalId;
     }
 
     @Override

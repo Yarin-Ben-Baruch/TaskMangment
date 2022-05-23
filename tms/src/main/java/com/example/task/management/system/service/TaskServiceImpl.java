@@ -9,6 +9,7 @@ import com.example.task.management.system.repo.NoteRepository;
 import com.example.task.management.system.repo.TaskRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,6 +32,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Value("${app.userUrlAllUsers}")
+    private String userUrlAllUsers;
 
     @Override
     public TaskDto addNewTask(TaskDtoCreation newTask) {
@@ -181,7 +185,7 @@ public class TaskServiceImpl implements TaskService {
         }
 
         try {
-            restTemplate.getForObject("http://localhost:8090/users/" + userIdToCheck.getUserId(), UserDto.class);
+            restTemplate.getForObject(userUrlAllUsers + userIdToCheck.getUserId(), UserDto.class);
         }
         catch (Exception e) {
             throw new TaskNotFoundException(e.getMessage());

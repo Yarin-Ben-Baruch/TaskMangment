@@ -15,11 +15,14 @@ public class UserCreation {
 
     private String password;
 
+    private String personalId;
+
     @Builder
-    public UserCreation(String firstName, String lastName, String email, String password) {
+    public UserCreation(String firstName, String lastName, String email, String password, String personalId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.personalId = personalId;
     }
 }

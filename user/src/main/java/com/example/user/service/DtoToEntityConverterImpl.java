@@ -17,6 +17,7 @@ public class DtoToEntityConverterImpl implements DtoToEntityConverter{
                 .firstName(userDto.getFirstName())
                 .lastName(userDto.getLastName())
                 .userId(userDto.getUserId())
+                .personalId(userDto.getPersonalId())
                 .build();
 
         return user;
@@ -28,6 +29,7 @@ public class DtoToEntityConverterImpl implements DtoToEntityConverter{
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .id(user.getUserId())
+                .personalId(user.getPersonalId())
                 .build();
 
         return userDto;
@@ -40,6 +42,7 @@ public class DtoToEntityConverterImpl implements DtoToEntityConverter{
                 .firstName(userCreation.getFirstName())
                 .lastName(userCreation.getLastName())
                 .password(userCreation.getPassword())
+                .personalId(userCreation.getPersonalId())
                 .build();
 
         return user;
