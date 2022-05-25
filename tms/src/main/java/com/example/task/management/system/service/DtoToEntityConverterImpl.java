@@ -1,8 +1,9 @@
 package com.example.task.management.system.service;
 
-import com.example.common.pojo.UserDto;
+
 import com.example.task.management.system.pojo.*;
 import com.example.task.management.system.repo.NoteRepository;
+import com.example.task.management.system.user.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

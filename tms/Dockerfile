@@ -1,4 +1,7 @@
-FROM openjdk:12
-ADD target/task-management.jar task-management.jar
+FROM openjdk:18
+
 EXPOSE 8083
-ENTRYPOINT ["java", "-jar", "task-management.jar"]
+
+ADD target/tms-0.0.1-SNAPSHOT.jar tms-0.0.1-SNAPSHOT.jar
+
+ENTRYPOINT ["java", "-jar", "tms-0.0.1-SNAPSHOT.jar"]

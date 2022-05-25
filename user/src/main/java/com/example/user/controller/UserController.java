@@ -1,7 +1,7 @@
 package com.example.user.controller;
 
-import com.example.common.pojo.UserDto;
 import com.example.user.pojo.UserCreation;
+import com.example.user.pojo.UserDto;
 import com.example.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +29,7 @@ public class UserController {
         return userService.addUser(user);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public UserDto updateUser(@RequestBody UserCreation detailsToUpdate,@PathVariable long id){
         return userService.updateUser(detailsToUpdate, id);
     }

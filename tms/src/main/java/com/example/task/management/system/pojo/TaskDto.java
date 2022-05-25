@@ -1,8 +1,8 @@
 package com.example.task.management.system.pojo;
 
-import com.example.common.pojo.UserDto;
 import com.example.task.management.system.enums.Priority;
 import com.example.task.management.system.enums.Status;
+import com.example.task.management.system.user.UserDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;

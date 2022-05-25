@@ -1,6 +1,11 @@
 server:
   port: 8085
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://server:8761/eureka
+
 spring:
   application:
     name: API-GATEWAY
@@ -15,10 +20,16 @@ spring:
           uri:
             lb://TASK-SERVICE
           predicates:
-            - Path=/task/**
+            - Path=/tasks/**
 
         - id: USER-SERVICE
           uri:
             lb://USER-SERVICE
           predicates:
             - Path=/users/**
+
+        - id: TASK-SERVICE
+          uri:
+            lb://TASK-SERVICE
+          predicates:
+            - Path=/specialTasks/**

@@ -1,12 +1,12 @@
 package com.example.task.management.system.service;
 
-import com.example.common.pojo.UserDto;
 import com.example.task.management.system.enums.Status;
 import com.example.task.management.system.enums.TimeOptions;
 import com.example.task.management.system.exceptions.TaskNotFoundException;
 import com.example.task.management.system.pojo.*;
 import com.example.task.management.system.repo.NoteRepository;
 import com.example.task.management.system.repo.TaskRepository;
+import com.example.task.management.system.user.UserDto;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,11 +67,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void deleteTask(long id) {
+        isIdExists(id);
         taskRepository.deleteTaskById(id);
     }
 
     @Override
-    public TaskDto closeTask(long id) { //TODO:FIX SQL
+    public TaskDto closeTask(long id) {
         Task task = taskRepository.findByTaskId(id)
                 .map(currentTask -> {
                     currentTask.setCurrentStatus(Status.CLOSED);
@@ -190,6 +191,11 @@ public class TaskServiceImpl implements TaskService {
         catch (Exception e) {
             throw new TaskNotFoundException(e.getMessage());
         }
+    }
+
+    private void isIdExists(long id) {
+        Task task = taskRepository.findByTaskId(id)
+                .orElseThrow(() -> new TaskNotFoundException(ERROR_MESSAGE_FOR_ID + id));
     }
 
     private void putDefaultStatus(ITask statusToCheck) {

@@ -1,7 +1,7 @@
 package com.example.user.service;
 
-import com.example.common.pojo.UserDto;
 import com.example.user.pojo.UserCreation;
+import com.example.user.pojo.UserDto;
 
 import java.util.Collection;
 
