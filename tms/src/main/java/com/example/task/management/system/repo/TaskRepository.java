@@ -2,8 +2,8 @@ package com.example.task.management.system.repo;
 
 import com.example.task.management.system.enums.Status;
 import com.example.task.management.system.pojo.Task;
+import com.example.task.management.system.pojo.TaskFilter;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -22,15 +22,17 @@ public interface TaskRepository {
 
     Optional<Task> findTaskByName(String name);
 
-    Collection<Task> findTaskByStatus(Status status);
-
-    Collection<Task> findTaskByStartDates(LocalDate startDate, LocalDate endDate);
-
-    Collection<Task> findTaskByExpectedDates(LocalDate startDate, LocalDate endDate);
-
-    Collection<Task> findTaskByUpdateDates(LocalDate startDate, LocalDate endDate);
+//    Collection<Task> findTaskByStatus(Status status);
+//
+//    Collection<Task> findTaskByStartDates(LocalDate startDate, LocalDate endDate);
+//
+//    Collection<Task> findTaskByExpectedDates(LocalDate startDate, LocalDate endDate);
+//
+//    Collection<Task> findTaskByUpdateDates(LocalDate startDate, LocalDate endDate);
 
     Task saveTask(Task task);
+
+    Collection<Task> filter(TaskFilter taskFilter);
 
     //special task
     Collection<Task> getTheMostCriticalTask(int count);
@@ -40,4 +42,6 @@ public interface TaskRepository {
     Collection<Task> getDelayedTasks();
 
     Collection<Task> getOpenCriticalTask();
+
+    Collection<Task> getTaskByStatus(Status statusToFilter);
 }

@@ -1,12 +1,10 @@
 package com.example.task.management.system.service;
 
-import com.example.task.management.system.enums.Status;
-import com.example.task.management.system.enums.TimeOptions;
 import com.example.task.management.system.pojo.NoteDto;
 import com.example.task.management.system.pojo.TaskDto;
 import com.example.task.management.system.pojo.TaskDtoCreation;
+import com.example.task.management.system.pojo.TaskFilter;
 
-import java.time.LocalDate;
 import java.util.Collection;
 
 public interface TaskService {
@@ -25,9 +23,11 @@ public interface TaskService {
 
     TaskDto getByName(String name);
 
-    Collection<TaskDto> getByStatus(Status status);
-
-    Collection<TaskDto> getByDates(LocalDate startDate, LocalDate endDate, TimeOptions timeOptions);
+//    Collection<TaskDto> getByStatus(Status status);
+//
+//    Collection<TaskDto> getByDates(LocalDate startDate, LocalDate endDate, TimeOptions timeOptions);
 
     Collection<TaskDto> getAllTask();
+
+    Collection<TaskDto> filter(TaskFilter taskFilter);
 }

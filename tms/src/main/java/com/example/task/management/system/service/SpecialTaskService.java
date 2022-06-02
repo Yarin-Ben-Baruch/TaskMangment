@@ -15,5 +15,7 @@ public interface SpecialTaskService {
 
     Map<Status, Collection<TaskDto>> getLastWeekTasks();
 
+    Map<Status, Collection<TaskDto>> getTaskByStatus();
+
     Collection<TaskDto> getOpenCriticalTask();
 }

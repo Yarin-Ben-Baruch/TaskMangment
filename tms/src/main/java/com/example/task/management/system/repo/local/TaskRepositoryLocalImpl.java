@@ -3,6 +3,7 @@ package com.example.task.management.system.repo.local;
 import com.example.task.management.system.enums.Status;
 import com.example.task.management.system.pojo.Note;
 import com.example.task.management.system.pojo.Task;
+import com.example.task.management.system.pojo.TaskFilter;
 import com.example.task.management.system.repo.NoteRepository;
 import com.example.task.management.system.repo.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Repository
 @Profile("Local")
@@ -62,40 +64,74 @@ public class TaskRepositoryLocalImpl implements TaskRepository {
         return db.getTasks().stream()
                 .filter(currentTask -> currentTask.getName().equalsIgnoreCase(name)).findAny();
     }
-
-    @Override
-    public Collection<Task> findTaskByStatus(Status status) {
-        return db.getTasks().stream()
-                .filter(currentTask -> currentTask.getCurrentStatus() == status).collect(Collectors.toList());
-    }
-
-    @Override
-    public Collection<Task> findTaskByStartDates(LocalDate startDate, LocalDate endDate) {
-        return db.getTasks().stream()
-                .filter(currentTask -> startDate.isBefore(currentTask.getStartDate())
-                        && endDate.isAfter(currentTask.getStartDate()))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public Collection<Task> findTaskByExpectedDates(LocalDate startDate, LocalDate endDate) {
-        return db.getTasks().stream()
-                .filter(currentTask -> startDate.isBefore(currentTask.getExpectedEndDate())
-                        && endDate.isAfter(currentTask.getExpectedEndDate()))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public Collection<Task> findTaskByUpdateDates(LocalDate startDate, LocalDate endDate) {
-        return db.getTasks().stream()
-                .filter(currentTask -> startDate.isBefore(currentTask.getUpdateDate())
-                        && endDate.isAfter(currentTask.getUpdateDate()))
-                .collect(Collectors.toList());
-    }
+//
+//    @Override
+//    public Collection<Task> findTaskByStatus(Status status) {
+//        return db.getTasks().stream()
+//                .filter(currentTask -> currentTask.getCurrentStatus() == status).collect(Collectors.toList());
+//    }
+//
+//    @Override
+//    public Collection<Task> findTaskByStartDates(LocalDate startDate, LocalDate endDate) {
+//        return db.getTasks().stream()
+//                .filter(currentTask -> startDate.isBefore(currentTask.getStartDate())
+//                        && endDate.isAfter(currentTask.getStartDate()))
+//                .collect(Collectors.toList());
+//    }
+//
+//    @Override
+//    public Collection<Task> findTaskByExpectedDates(LocalDate startDate, LocalDate endDate) {
+//        return db.getTasks().stream()
+//                .filter(currentTask -> startDate.isBefore(currentTask.getExpectedEndDate())
+//                        && endDate.isAfter(currentTask.getExpectedEndDate()))
+//                .collect(Collectors.toList());
+//    }
+//
+//    @Override
+//    public Collection<Task> findTaskByUpdateDates(LocalDate startDate, LocalDate endDate) {
+//        return db.getTasks().stream()
+//                .filter(currentTask -> startDate.isBefore(currentTask.getUpdateDate())
+//                        && endDate.isAfter(currentTask.getUpdateDate()))
+//                .collect(Collectors.toList());
+//    }
 
     @Override
     public Task saveTask(Task task) {
         return addNewTask(task);
+    }
+
+    @Override
+    public Collection<Task> filter(TaskFilter taskFilter) {
+        Stream<Task> tasks = getAllTask().stream();
+
+        if (taskFilter.getFromStartDate() != null) {
+            tasks = tasks.filter(currentTask -> currentTask.getStartDate().isBefore(taskFilter.getFromStartDate()));
+        }
+
+        if (taskFilter.getToStartDate() != null) {
+            tasks = tasks.filter(currentTask -> currentTask.getStartDate().isAfter(taskFilter.getToStartDate()));
+        }
+
+        if (taskFilter.getFromExpectedEndDate() != null) {
+            tasks = tasks.filter(
+                    currentTask -> currentTask.getStartDate().isBefore(taskFilter.getFromExpectedEndDate()));
+        }
+        if (taskFilter.getToExpectedEndDate() != null) {
+            tasks = tasks.filter(currentTask -> currentTask.getStartDate().isAfter(taskFilter.getToExpectedEndDate()));
+        }
+
+        if (taskFilter.getFromUpdateDate() != null) {
+            tasks = tasks.filter(currentTask -> currentTask.getUpdateDate().isBefore(taskFilter.getFromUpdateDate()));
+        }
+        if (taskFilter.getToUpdateDate() != null) {
+            tasks = tasks.filter(currentTask -> currentTask.getUpdateDate().isAfter(taskFilter.getToUpdateDate()));
+        }
+
+        if (taskFilter.getStatus() != null) {
+            tasks = tasks.filter(currentTask -> currentTask.getCurrentStatus() == taskFilter.getStatus());
+        }
+
+        return tasks.collect(Collectors.toList());
     }
 
     @Override
@@ -115,7 +151,8 @@ public class TaskRepositoryLocalImpl implements TaskRepository {
 
         Collection<Task> taskCollection =
                 tasks.stream().filter(currentTask -> currentTask.getCurrentStatus() == statusToFilter
-                                && currentTask.getStartDate().isAfter(lastWeekDate))
+                                && currentTask.getStartDate().isAfter(lastWeekDate)
+                                && currentTask.getStartDate().isBefore(LocalDate.now()))
                         .collect(Collectors.toList());
 
         return taskCollection;
@@ -140,5 +177,16 @@ public class TaskRepositoryLocalImpl implements TaskRepository {
                 .filter(currentTask -> currentTask.getCurrentStatus() == Status.OPEN)
                 .filter(task -> notes.stream().anyMatch(note -> task.getName().equals(note.getName())))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Task> getTaskByStatus(Status statusToFilter) {
+        Collection<Task> tasks = getAllTask();
+
+        Collection<Task> taskCollection =
+                tasks.stream().filter(currentTask -> currentTask.getCurrentStatus() == statusToFilter)
+                        .collect(Collectors.toList());
+
+        return taskCollection;
     }
 }

@@ -1,10 +1,10 @@
 server:
   port: 8085
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://server:8761/eureka
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://server:8761/eureka
 
 spring:
   application:
@@ -33,3 +33,14 @@ spring:
             lb://TASK-SERVICE
           predicates:
             - Path=/specialTasks/**
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - DELETE
+              - PUT

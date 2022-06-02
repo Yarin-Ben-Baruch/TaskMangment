@@ -14,6 +14,8 @@ import java.util.Collection;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private static final String ERROR_MESSAGE_FOR_ID = "There is not user corresponding to id = ";
+
     @Autowired
     private UserRepository userRepository;
 
@@ -48,13 +50,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeUser(long id) {
+        isIdExists(id);
         userRepository.deleteById(id);
     }
 
     @Override
     public UserDto getUser(long id) {
         User user = userRepository.findByUserId(id)
-                .orElseThrow(() -> new UserNotFoundException("Id isn't exist"));
+                .orElseThrow(() -> new UserNotFoundException("User id isn't exist"));
 
         return dtoToEntityConverter.toUserDto(user);
     }
@@ -94,11 +97,17 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private User updateUser(UserCreation userCreation, User userToUpdate){
+    private void isIdExists(long id) {
+        User user = userRepository.findByUserId(id)
+                .orElseThrow(() -> new UserNotFoundException(ERROR_MESSAGE_FOR_ID + id));
+    }
+
+    private User updateUser(UserCreation userCreation, User userToUpdate) {
         userToUpdate.setEmail(userCreation.getEmail());
         userToUpdate.setFirstName(userCreation.getFirstName());
         userToUpdate.setLastName(userCreation.getLastName());
         userToUpdate.setPassword(userCreation.getPassword());
+        userToUpdate.setPersonalId(userCreation.getPersonalId());
 
         return userToUpdate;
     }

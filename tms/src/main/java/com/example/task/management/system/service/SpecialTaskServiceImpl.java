@@ -48,6 +48,7 @@ public class SpecialTaskServiceImpl implements SpecialTaskService {
     public Map<Status, Collection<TaskDto>> getLastWeekTasks() {
         Map<Status, Collection<TaskDto>> allTaskOrderByStatus = new HashMap<>();
         int days = 7;
+
         Collection<Task> openStatus = taskRepository.getTaskByStatusFilterByDays(Status.OPEN, days);
         Collection<Task> inProcessStatus = taskRepository.getTaskByStatusFilterByDays(Status.IN_PROCESS, days);
         Collection<Task> closedStatus = taskRepository.getTaskByStatusFilterByDays(Status.CLOSED, days);
@@ -59,6 +60,20 @@ public class SpecialTaskServiceImpl implements SpecialTaskService {
         return allTaskOrderByStatus;
     }
 
+    @Override
+    public Map<Status, Collection<TaskDto>> getTaskByStatus() {
+        Map<Status, Collection<TaskDto>> allTaskFilterStatus = new HashMap<>();
+
+        Collection<Task> openStatus = taskRepository.getTaskByStatus(Status.OPEN);
+        Collection<Task> inProcessStatus = taskRepository.getTaskByStatus(Status.IN_PROCESS);
+        Collection<Task> closedStatus = taskRepository.getTaskByStatus(Status.CLOSED);
+
+        allTaskFilterStatus.put(Status.OPEN, dtoToEntityConverter.getCollectionTaskOfDto(openStatus));
+        allTaskFilterStatus.put(Status.IN_PROCESS, dtoToEntityConverter.getCollectionTaskOfDto(inProcessStatus));
+        allTaskFilterStatus.put(Status.CLOSED, dtoToEntityConverter.getCollectionTaskOfDto(closedStatus));
+
+        return allTaskFilterStatus;
+    }
 
     @Override
     public Collection<TaskDto> getOpenCriticalTask() {

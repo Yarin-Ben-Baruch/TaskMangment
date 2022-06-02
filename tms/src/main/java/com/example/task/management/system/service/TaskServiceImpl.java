@@ -1,7 +1,6 @@
 package com.example.task.management.system.service;
 
 import com.example.task.management.system.enums.Status;
-import com.example.task.management.system.enums.TimeOptions;
 import com.example.task.management.system.exceptions.TaskNotFoundException;
 import com.example.task.management.system.pojo.*;
 import com.example.task.management.system.repo.NoteRepository;
@@ -108,33 +107,38 @@ public class TaskServiceImpl implements TaskService {
         return dtoToEntityConverter.toTaskDto(task);
     }
 
-    @Override
-    public Collection<TaskDto> getByStatus(Status status) {
-        return dtoToEntityConverter.getCollectionTaskOfDto(taskRepository.findTaskByStatus(status));
-    }
-
-    @Override
-    public Collection<TaskDto> getByDates(LocalDate startDate, LocalDate endDate, TimeOptions timeOptions) {
-        Collection<Task> result = null;
-
-        switch (timeOptions) {
-            case START:
-                result = taskRepository.findTaskByStartDates(startDate, endDate);
-                break;
-            case UPDATE:
-                result = taskRepository.findTaskByUpdateDates(startDate, endDate);
-                break;
-            case EXPECTED:
-                result = taskRepository.findTaskByExpectedDates(startDate, endDate);
-                break;
-        }
-
-        return dtoToEntityConverter.getCollectionTaskOfDto(result);
-    }
+//    @Override
+//    public Collection<TaskDto> getByStatus(Status status) {
+//        return dtoToEntityConverter.getCollectionTaskOfDto(taskRepository.findTaskByStatus(status));
+//    }
+//
+//    @Override
+//    public Collection<TaskDto> getByDates(LocalDate startDate, LocalDate endDate, TimeOptions timeOptions) {
+//        Collection<Task> result = null;
+//
+//        switch (timeOptions) {
+//            case START:
+//                result = taskRepository.findTaskByStartDates(startDate, endDate);
+//                break;
+//            case UPDATE:
+//                result = taskRepository.findTaskByUpdateDates(startDate, endDate);
+//                break;
+//            case EXPECTED:
+//                result = taskRepository.findTaskByExpectedDates(startDate, endDate);
+//                break;
+//        }
+//
+//        return dtoToEntityConverter.getCollectionTaskOfDto(result);
+//    }
 
     @Override
     public Collection<TaskDto> getAllTask() {
         return dtoToEntityConverter.getCollectionTaskOfDto(taskRepository.getAllTask());
+    }
+
+    @Override
+    public Collection<TaskDto> filter(TaskFilter taskFilter) {
+        return dtoToEntityConverter.getCollectionTaskOfDto(taskRepository.filter(taskFilter));
     }
 
     private void isTaskValidToAdd(ITask taskToCheck) {

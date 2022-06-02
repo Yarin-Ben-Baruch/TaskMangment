@@ -42,4 +42,9 @@ public class SpecialTaskController {
     public Collection<TaskDto> getOpenCriticalTask() {
         return specialTaskService.getOpenCriticalTask();
     }
+
+    @GetMapping("/allTasksFilterStatus")
+    public Map<Status, Collection<TaskDto>> getTaskByStatus() {
+        return specialTaskService.getTaskByStatus();
+    }
 }

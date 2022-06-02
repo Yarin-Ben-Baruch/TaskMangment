@@ -4,7 +4,6 @@ import com.example.user.pojo.UserCreation;
 import com.example.user.pojo.UserDto;
 import com.example.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -12,14 +11,6 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
-    @Value("${eureka.instance.instance-id}")
-    private String instanceId;
-
-    @GetMapping("/me")
-    public String getMe() {
-        return "ME: " + instanceId;
-    }
 
     @Autowired
     private UserService userService;
