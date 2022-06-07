@@ -109,14 +109,6 @@ public class DtoToEntityConverterImpl implements DtoToEntityConverter {
         UserDto user = restTemplate.getForObject(userUrlAllUsers + task.getUserId(), UserDto.class);
 
         return user;
-        /*
-                Object user = webClientBuilder.build()
-                .get()
-                .uri("http://localhost:8090/users/{}",taskDto.getUserId())
-                .retrieve()
-                .bodyToMono(Object.class) //// mono it's like promise -> async
-                .block();
-         */
     }
 
     private Collection<Note> getTaskNotes(Task task) {

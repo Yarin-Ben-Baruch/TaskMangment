@@ -1,11 +1,6 @@
 server:
   port: 8085
 
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://server:8761/eureka
-
 spring:
   application:
     name: API-GATEWAY
@@ -37,7 +32,7 @@ spring:
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "http://localhost:3000"
+            allowedOrigins: "*"
             allowedHeaders: "*"
             allowedMethods:
               - GET

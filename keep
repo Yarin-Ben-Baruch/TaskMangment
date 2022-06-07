@@ -1,26 +1,22 @@
-  gateway:
-    build: ./api-gateway
-    restart: on-failure
-    env_file: ./.env
-    ports:
-      - $SPRING_LOCAL_PORT_GATEWAY:$SPRING_DOCKER_PORT_GATEWAY
-    stdin_open: true
-    tty: true
-
-
-
-      SPRING_APPLICATION_JSON: '{
-        "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE_TASK?useSSL=false",
-        "spring.profiles.active" : "Db",
-        "spring.datasource.username" : "$MYSQLDB_USER",
-        "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
-        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
-        "spring.jpa.hibernate.ddl-auto" : "update",
+        "spring.datasource.driver-class-name" : "com.mysql.cj.jdbc.Driver",
         "spring.application.name" : "TASK-SERVICE",
         "management.endpoints.web.exposure.include" : "*",
         "management.security.enabled" : "false",
         "management.endpoint.health.show-details" : "always",
-        "eureka.client.service-url.default-zone": "http://server:8761/eureka",
-        "eureka.client.fetch-registry":"true",
-        "eureka.client.register-with-eureka":"true"
-      }'
+        "spring.jpa.hibernate.ddl-auto" : "update",
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL57InnoDBDialect",
+
+
+
+
+                "spring.datasource.username" : "$MYSQLDB_USER",
+                "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
+                "spring.application.name" : "USER-SERVICE",
+                "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false",
+                "spring.datasource.driver-class-name" : "com.mysql.cj.jdbc.Driver",
+                "management.endpoints.web.exposure.include" : "*",
+                "management.security.enabled" : "false",
+                "management.endpoint.health.show-details" : "always",
+                "spring.jpa.hibernate.ddl-auto" : "update",
+                "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL57InnoDBDialect",
+                "eureka.client.service-url.default-zone": "http://server:8761/eureka/"

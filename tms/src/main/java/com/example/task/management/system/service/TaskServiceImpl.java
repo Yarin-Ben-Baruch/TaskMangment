@@ -107,29 +107,6 @@ public class TaskServiceImpl implements TaskService {
         return dtoToEntityConverter.toTaskDto(task);
     }
 
-//    @Override
-//    public Collection<TaskDto> getByStatus(Status status) {
-//        return dtoToEntityConverter.getCollectionTaskOfDto(taskRepository.findTaskByStatus(status));
-//    }
-//
-//    @Override
-//    public Collection<TaskDto> getByDates(LocalDate startDate, LocalDate endDate, TimeOptions timeOptions) {
-//        Collection<Task> result = null;
-//
-//        switch (timeOptions) {
-//            case START:
-//                result = taskRepository.findTaskByStartDates(startDate, endDate);
-//                break;
-//            case UPDATE:
-//                result = taskRepository.findTaskByUpdateDates(startDate, endDate);
-//                break;
-//            case EXPECTED:
-//                result = taskRepository.findTaskByExpectedDates(startDate, endDate);
-//                break;
-//        }
-//
-//        return dtoToEntityConverter.getCollectionTaskOfDto(result);
-//    }
 
     @Override
     public Collection<TaskDto> getAllTask() {
