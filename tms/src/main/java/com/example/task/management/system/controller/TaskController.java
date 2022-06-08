@@ -60,21 +60,6 @@ public class TaskController {
         return taskService.getByName(name);
     }
 
-//    @GetMapping("/findByStatus/{status}")
-//    public Collection<TaskDto> getTaskByStatus(@PathVariable Status status) {
-//        return taskService.getByStatus(status);
-//    }
-//
-//    //@GetMapping("/findByDates/{startDate}/{endDate}/{timeOptions}")
-//    @GetMapping("/findByDates")
-//    public Collection<TaskDto> getTaskByEndDates(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-//                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
-//                                                 @RequestParam TimeOptions timeOptions) {
-//
-//        //{"startDate":"2022-05-10","endDate":"2022-05-20"}
-//        return taskService.getByDates(startDate, endDate, timeOptions);
-//    }
-
     @PostMapping("/filter")
     public Collection<TaskDto> getTaskFilter(@RequestBody TaskFilter dataToFilter) {
         System.out.println(dataToFilter);
